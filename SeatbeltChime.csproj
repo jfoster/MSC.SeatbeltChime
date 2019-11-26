@@ -55,15 +55,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SeatbeltChimeMod.cs" />
+    <Compile Include="WavUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="chime.wav" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chime.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="chime.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)chime.wav"  "G:\Steam\steamapps\common\My Summer Car\Mods\Assets\$(TargetName)\" /y
-if "$(ConfigurationName)" == "Debug" (
+    <PostBuildEvent>if "$(ConfigurationName)" == "Debug" (
 copy "$(TargetPath)" "G:\Steam\steamapps\common\My Summer Car\Mods" /y
 copy "$(TargetDir)$(TargetName).pdb" "G:\Steam\steamapps\common\My Summer Car\Mods" /y
 cd "G:\Steam\steamapps\common\My Summer Car\Mods"

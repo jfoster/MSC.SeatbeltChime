@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace SeatbeltChime
 {
-    public class SeatbeltChimeMod : Mod
+    public class SeatbeltChime : Mod
     {
-        public override string ID => "Rave.SeatbeltChime"; // Your mod ID (unique)
+        public override string ID => "me.jfoster.SeatbeltChime"; // Your mod ID (unique)
         public override string Name => "SeatbeltChime"; // You mod name
         public override string Author => "Rave"; // Your Username
         public override string Version => "1.0"; // Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
-        public override bool UseAssetsFolder => true;
+        public override bool UseAssetsFolder => false;
 
         private AudioSource chime;
 
@@ -22,12 +22,12 @@ namespace SeatbeltChime
             // Called once, when mod is loading after game is fully loaded
             try
             {
-                WWW wav = new WWW("file:///" + System.IO.Path.Combine(ModLoader.GetModAssetsFolder(this), "chime.wav"));
-                while (!wav.isDone)
-                {
-                }
+                var stream = Properties.Resources.chime;
+                byte[] bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+
                 chime = new GameObject(Name).AddComponent<AudioSource>();
-                chime.clip = wav.GetAudioClip(true);
+                chime.clip = WavUtil.ToAudioClip(bytes);
                 chime.spatialBlend = 0.75f;
                 chime.volume = 0.25f;
                 chime.maxDistance = 100.0f;
