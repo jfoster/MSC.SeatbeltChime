@@ -32,8 +32,6 @@ namespace SeatbeltChime
                 chime.volume = 0.25f;
                 chime.maxDistance = 100.0f;
                 chime.minDistance = 10.0f;
-                chime.transform.parent = GameObject.Find("SATSUMA(557kg, 248)/Dashboard/pivot_dashboard/dashboard(Clone)").transform;
-                chime.transform.localPosition = Vector3.zero;
             }
             catch (Exception ex)
             {
@@ -46,12 +44,22 @@ namespace SeatbeltChime
             // Update is called once per frame
             try
             {
+                GameObject dash = GameObject.Find("SATSUMA(557kg, 248)/Dashboard/pivot_dashboard/dashboard(Clone)");
+
+                bool isDash = dash != null;
+                bool isPowered = GameObject.Find("SATSUMA(557kg, 248)/Electricity/PowerON").activeSelf;
+
                 bool isBelted = PlayMakerGlobals.Instance.Variables.FindFsmBool("PlayerSeatbeltsOn").Value;
                 bool isDriving = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle").Value == "Satsuma";
-                bool isPowered = GameObject.Find("SATSUMA(557kg, 248)/Electricity/PowerON").activeSelf;
                 bool isSeated = PlayMakerGlobals.Instance.Variables.FindFsmBool("GUIdrive").Value;
 
-                if (!isBelted && isPowered && (isSeated || isDriving))
+                if (chime.transform.parent == null)
+                {
+                    chime.transform.parent = dash.transform;
+                    chime.transform.localPosition = Vector3.zero;
+                }
+
+                if (!isBelted && isPowered && isDash && (isSeated || isDriving))
                 {
                     if (!chime.isPlaying)
                     {

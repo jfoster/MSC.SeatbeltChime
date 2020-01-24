@@ -60,7 +60,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SeatbeltChimeMod.cs" />
+    <Compile Include="SeatbeltChime.cs" />
     <Compile Include="WavUtil.cs" />
   </ItemGroup>
   <ItemGroup>
