@@ -6,10 +6,10 @@ namespace SeatbeltChime
 {
     public class SeatbeltChime : Mod
     {
-        public override string ID => "me.jfoster.SeatbeltChime"; // Your mod ID (unique)
+        public override string ID => "xyz.jfoster.SeatbeltChime"; // Your mod ID (unique)
         public override string Name => "SeatbeltChime"; // You mod name
         public override string Author => "Rave"; // Your Username
-        public override string Version => "1.0"; // Version
+        public override string Version => ThisAssembly.Git.BaseTag; // Version
 
         // Set this to true if you will be load custom assets from Assets folder.
         // This will create subfolder in Assets folder for your mod.
@@ -46,8 +46,8 @@ namespace SeatbeltChime
             {
                 GameObject dash = GameObject.Find("SATSUMA(557kg, 248)/Dashboard/pivot_dashboard/dashboard(Clone)");
 
-                bool isDash = dash != null;
-                bool isPowered = GameObject.Find("SATSUMA(557kg, 248)/Electricity/PowerON").activeSelf;
+                bool isDashInstalled = dash != null;
+                bool isCarPowered = GameObject.Find("SATSUMA(557kg, 248)/Electricity/PowerON").activeSelf;
 
                 bool isBelted = PlayMakerGlobals.Instance.Variables.FindFsmBool("PlayerSeatbeltsOn").Value;
                 bool isDriving = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle").Value == "Satsuma";
@@ -59,13 +59,10 @@ namespace SeatbeltChime
                     chime.transform.localPosition = Vector3.zero;
                 }
 
-                if (!isBelted && isPowered && isDash && (isSeated || isDriving))
+                if (isDashInstalled && isCarPowered && isDriving && !isBelted && !chime.isPlaying)
                 {
-                    if (!chime.isPlaying)
-                    {
-                        chime.loop = true;
-                        chime.Play();
-                    }
+                    chime.loop = true;
+                    chime.Play();
                 }
                 else if (chime.isPlaying)
                 {

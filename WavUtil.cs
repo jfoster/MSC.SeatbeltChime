@@ -58,7 +58,6 @@ namespace SeatbeltChime
         private static int WriteWavFileHeader(MemoryStream stream, int fileSize)
         {
             int count = 0;
-            int total = 12;
 
             // riff chunk id
             byte[] riff = Encoding.ASCII.GetBytes("RIFF");
@@ -77,7 +76,6 @@ namespace SeatbeltChime
         private static int WriteWavFileFormat(MemoryStream stream, int channels, int sampleRate, UInt16 bitDepth)
         {
             int count = 0;
-            int total = 24;
 
             byte[] id = Encoding.ASCII.GetBytes("fmt ");
             count += WriteBytesToMemoryStream(stream, id, "FMT_ID");
@@ -107,7 +105,6 @@ namespace SeatbeltChime
         private static int WriteWavData(MemoryStream stream, float[] audioClipData, int samples, UInt16 bitDepth, Boolean includeWavFileHeader)
         {
             int count = 0;
-            int total = 8;
 
             byte[] bytes = ConvertAudioClipDataToInt16ByteArray(audioClipData);
             int subchunk2Size = Convert.ToInt32(samples * BlockSize_16Bit);
@@ -219,12 +216,10 @@ namespace SeatbeltChime
             float[] data = new float[convertedSize];
 
             Int16 maxValue = Int16.MaxValue;
-
-            int offset = 0;
             int i = 0;
             while (i < convertedSize)
             {
-                offset = i * x + headerOffset;
+                int offset = i * x + headerOffset;
                 data[i] = (float)BitConverter.ToInt16(source, offset) / maxValue;
                 ++i;
             }
