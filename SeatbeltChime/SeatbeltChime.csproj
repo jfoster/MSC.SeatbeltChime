@@ -38,12 +38,15 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>G:\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MSCLoader">
       <HintPath>G:\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\MSCLoader.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PlayMaker">
       <HintPath>G:\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\PlayMaker.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,6 +56,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>G:\Steam\steamapps\common\My Summer Car\mysummercar_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
