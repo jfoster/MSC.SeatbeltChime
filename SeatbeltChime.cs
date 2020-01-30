@@ -6,20 +6,20 @@ namespace SeatbeltChime
 {
     public class SeatbeltChime : Mod
     {
-        private Settings settings;
+        private Config cfg;
 
         private AudioSource chime;
 
         public override void ModSettings()
         {
-            settings = new Settings(this);
-            settings.Update += OnSettingsUpdate;
-            settings.Load();
+            cfg = new Config(this);
+            cfg.Update += OnSettingsUpdate;
+            cfg.Load();
         }
 
         private void OnSettingsUpdate()
         {
-            chime.volume = settings.GetVolume();
+            chime.volume = cfg.SatsumaChimeVolume;
         }
 
         public override void OnLoad()
@@ -31,7 +31,7 @@ namespace SeatbeltChime
                 chime.spatialBlend = 0.75f;
                 chime.maxDistance = 100.0f;
                 chime.minDistance = 10.0f;
-                chime.volume = settings.GetVolume();
+                chime.volume = cfg.SatsumaChimeVolume;
             }
             catch (Exception ex)
             {
@@ -46,18 +46,18 @@ namespace SeatbeltChime
                 GameObject dash = GameObject.Find("SATSUMA(557kg, 248)/Dashboard/pivot_dashboard/dashboard(Clone)");
 
                 bool isDashInstalled = dash != null;
-                bool isCarPowered = GameObject.Find("SATSUMA(557kg, 248)/Electricity/PowerON").activeSelf;
+                bool isSatsumaPowered = GameObject.Find("SATSUMA(557kg, 248)/Electricity/PowerON").activeSelf;
 
-                bool isBelted = PlayMakerGlobals.Instance.Variables.FindFsmBool("PlayerSeatbeltsOn").Value;
-                bool isDriving = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle").Value == "Satsuma";
+                bool isBeltedSatsuma = PlayMakerGlobals.Instance.Variables.FindFsmBool("PlayerSeatbeltsOn").Value;
+                bool isDrivingSatsuma = PlayMakerGlobals.Instance.Variables.FindFsmString("PlayerCurrentVehicle").Value == "Satsuma";
 
                 if (chime.transform.parent == null)
                 {
-                    chime.transform.parent = dash.transform;
+                    chime.transform.parent = dash?.transform;
                     chime.transform.localPosition = Vector3.zero;
                 }
 
-                if (isDashInstalled && isCarPowered && isDriving && !isBelted && !chime.isPlaying)
+                if (isDashInstalled && isSatsumaPowered && isDrivingSatsuma && !isBeltedSatsuma && !chime.isPlaying)
                 {
                     chime.loop = true;
                     chime.Play();
